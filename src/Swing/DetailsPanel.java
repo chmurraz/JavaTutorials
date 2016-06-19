@@ -3,15 +3,25 @@ package Swing;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.EventListenerList;
 
 public class DetailsPanel extends JPanel
 {
+	/**
+	 * 		Look this serialVersionUID stuff up... what is it?
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private EventListenerList listenerList = new EventListenerList();
+	
 	public DetailsPanel()
 	{
 		Dimension size = getPreferredSize();
@@ -29,6 +39,21 @@ public class DetailsPanel extends JPanel
 		JTextField occupationField = new JTextField(10);
 		
 		JButton addBtn = new JButton("Add");
+		
+		addBtn.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						String name = nameField.getText();
+						String occupation = occupationField.getText();
+						
+						String text = name + ": " + occupation + "\n";
+						
+						//	fire event using "this" panel and the text
+						fireDetailEvent(new DetailEvent(this,text));
+					}
+			
+				});
 		
 		//	GridBagLayout lets you add controls in conjunction with a GridBagConstraints class
 		setLayout(new GridBagLayout());
@@ -66,10 +91,34 @@ public class DetailsPanel extends JPanel
 		gc.anchor = GridBagConstraints.FIRST_LINE_START;	//	Top justify
 		gc.gridx = 1;
 		gc.gridy = 2;
-		add(addBtn,gc);
+		add(addBtn,gc);		
+	}
+	
+	public void fireDetailEvent(DetailEvent event)
+	{
+		Object[] listeners = listenerList.getListenerList();
 		
-		
-		
-		
+		//	Step through the listener array two at a time because
+		//	the first of every pair of items is the DetailListener.class
+		//	the second 
+		for(int i = 0; i<listeners.length; i+=2)
+		{
+			if(listeners[i]== DetailListener.class)
+			{
+				//	Cast the second item in each pair to a DetailListener
+				//	then call the detailEventOccured method
+				((DetailListener)listeners[i+1]).detailEventOccured(event);
+			}
+		}
+	}
+	
+	public void addDetailListener(DetailListener listener)
+	{
+		listenerList.add(DetailListener.class, listener);
+	}
+	
+	public void removeDetailListener(DetailListener listener)
+	{
+		listenerList.remove(DetailListener.class, listener);
 	}
 }
