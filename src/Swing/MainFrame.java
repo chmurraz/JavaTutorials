@@ -11,6 +11,8 @@ import javax.swing.JTextArea;
 
 public class MainFrame extends JFrame
 {
+	private DetailsPanel detailsPanel;
+	
 	public MainFrame(String title)
 	{
 		super(title);
@@ -21,12 +23,14 @@ public class MainFrame extends JFrame
 		//	Create Swing components
 		JTextArea textArea = new JTextArea();
 		JButton button = new JButton("Click Me!");
+		detailsPanel = new DetailsPanel();
 		
 		//	Add Swing components to content pane
 		Container c = getContentPane();
 		
 		c.add(textArea, BorderLayout.CENTER);
 		c.add(button, BorderLayout.SOUTH);
+		c.add(detailsPanel,BorderLayout.WEST);
 		
 		//	Add behavior
 		//	ActionListener is an interface, not a class
@@ -36,7 +40,6 @@ public class MainFrame extends JFrame
 			{
 				textArea.append("Hello\n");
 			}
-			
 		});
 	}
 }
