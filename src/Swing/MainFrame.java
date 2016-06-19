@@ -31,15 +31,5 @@ public class MainFrame extends JFrame
 		c.add(textArea, BorderLayout.CENTER);
 		c.add(button, BorderLayout.SOUTH);
 		c.add(detailsPanel,BorderLayout.WEST);
-		
-		//	Add behavior
-		//	ActionListener is an interface, not a class
-		button.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				textArea.append("Hello\n");
-			}
-		});
 	}
 }
