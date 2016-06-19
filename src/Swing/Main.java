@@ -12,7 +12,6 @@ public class Main {
 		frame.setSize(500,400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
 	}
 
 }
